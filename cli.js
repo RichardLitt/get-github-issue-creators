@@ -14,23 +14,25 @@ const authOptions = {
   scope: ['repo']
 }
 
-var cli = meow([`
+const cli = meow([`
   Usage
     $ get-github-issue-creators [input]
 
   Options
     -r, --repo  Only for a specific repo. [Default: false]
     -s, --since Only since a specific time. [Default: false]
+    -u, --until Only to a specific time. [Default: false]
 
   Examples
     $ get-github-issue-creators
-    unicorns & rainbows
-    $ get-github-issue-creators ponies
-    ponies & rainbows
+    RichardLitt
+    $ get-github-issue-creators RichardLitt --repo=get-github-issue-creators --since=2016-01-15T00:01:01Z --until=2016-01-20T00:01:05Z
+    RichardLitt
 `, {
   alias: {
     r: 'repo',
-    s: 'since'
+    s: 'since',
+    u: 'until'
   }
 }])
 

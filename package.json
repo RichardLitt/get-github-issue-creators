@@ -40,10 +40,13 @@
     "bluebird": "^3.1.1",
     "depaginate": "0.0.4",
     "get-github-user": "0.0.2",
+    "ghauth": "^3.2.0",
+    "gitconfiglocal": "^2.0.1",
     "lodash": "^4.0.0",
     "meow": "^3.7.0",
     "moment": "^2.11.1",
     "octokat": "^0.4.15",
+    "pify": "^2.3.0",
     "sort-alphabetic": "0.0.0"
   },
   "devDependencies": {
@@ -54,5 +57,9 @@
     "ignore": [
       "test.js"
     ]
-  }
+  },
+  "coordinates": [
+    42.3891346,
+    -71.1200404
+  ]
 }

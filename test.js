@@ -1,9 +1,56 @@
 import test from 'ava'
 import fn from './'
 
-test('from this repo', t => {
+test('with since from this repo', t => {
   return fn('RichardLitt', {
     since: '2016-01-17T04:29:11.301Z',
+    repo: 'get-github-issue-creators'
+  }).then(result => {
+    t.same(result, [])
+  })
+})
+
+test('with bad since from this repo', t => {
+  return fn('RichardLitt', {
+    since: '2016-01-19T04:29:11.301Z',
+    repo: 'get-github-issue-creators'
+  }).then(result => {
+    t.same(result, [])
+  })
+})
+
+test('with until from this repo', t => {
+  return fn('RichardLitt', {
+    until: '2016-01-19T04:29:11.301Z',
+    repo: 'get-github-issue-creators'
+  }).then(result => {
+    t.same(result, ['RichardLitt'])
+  })
+})
+
+test('with bad until from this repo', t => {
+  return fn('RichardLitt', {
+    until: '2016-01-10T04:29:11.301Z',
+    repo: 'get-github-issue-creators'
+  }).then(result => {
+    t.same(result, [])
+  })
+})
+
+test('with between from this repo', t => {
+  return fn('RichardLitt', {
+    since: '2016-01-10T04:29:11.301Z',
+    until: '2016-01-20T04:29:11.301Z',
+    repo: 'get-github-issue-creators'
+  }).then(result => {
+    t.same(result, ['RichardLitt'])
+  })
+})
+
+test('with bad between from this repo', t => {
+  return fn('RichardLitt', {
+    since: '2016-01-19T04:29:11.301Z',
+    until: '2016-01-20T04:29:11.301Z',
     repo: 'get-github-issue-creators'
   }).then(result => {
     t.same(result, [])

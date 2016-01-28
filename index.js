@@ -7,7 +7,7 @@ const moment = require('moment')
 const _ = require('lodash')
 const depaginate = require('depaginate')
 const getGithubUser = require('get-github-user')
-const sortAplhabetic = require('sort-alphabetic')
+const sortAlphabetic = require('sort-alphabetic')
 
 module.exports = function (org, flags, token) {
   octo = new Octokat({
@@ -57,6 +57,10 @@ module.exports = function (org, flags, token) {
     throw new Error('Since flag is an invalid date.')
   }
 
+  if (flags.until && !moment(flags.until).isValid()) {
+    throw new Error('Until flag is an invalid date.')
+  }
+
   return Promise.resolve().then(() => {
     return getGithubUser(org)
   }).then((user) => {
@@ -65,18 +69,21 @@ module.exports = function (org, flags, token) {
     } else {
       return user
     }
-  }).then((user) => {
-    return (flags.repo) ? getRepo(user[0], flags) : getAllRepos(user[0], flags)
-  }).map((response) => {
-    // Sometimes since is flaky. Checking again.
-    if (flags.since && moment(response.updatedAt).isAfter(flags.since)) {
-      return response.user.login
-    } else if (!flags.since) {
-      return response.user.login
+  }).then((user) => (flags.repo) ? getRepo(user[0], flags) : getAllRepos(user[0], flags))
+  .filter((response) => {
+    if (flags.since && flags.until && moment(response.updatedAt).isBetween(flags.since, flags.until)) {
+      return response
+    } else if (flags.since && !flags.until && moment(response.updatedAt).isAfter(flags.since)) {
+      return response
+    } else if (!flags.since && flags.until && moment(response.updatedAt).isBefore(flags.until)) {
+      return response
+    } else if (!flags.since && !flags.until) {
+      return response
     }
-  }).then((response) => {
-    return sortAplhabetic(_.uniq(_.without(response, undefined)))
-  }).catch((err) => {
+  })
+  .map((response) => response.user.login)
+  .then((response) => sortAlphabetic(_.uniq(_.without(response, undefined))))
+  .catch((err) => {
     console.log('err', err)
   })
 }

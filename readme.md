@@ -15,8 +15,12 @@ $ npm install --save get-github-issue-creators
 ```js
 const getGithubIssueCreators = require('get-github-issue-creators');
 
-getGithubIssueCreators('unicorns');
-//=> 'unicorns & rainbows'
+getGithubIssueCreators('RichardLitt', {
+    since: '2016-01-15T00:20:24Z',
+    until: '2016-01-20T00:20:24Z',
+    repo: 'get-github-issue-creators'
+  });
+//=> 'RichardLitt'
 ```
 
 
@@ -24,20 +28,31 @@ getGithubIssueCreators('unicorns');
 
 ### getGithubIssueCreators(input, [options])
 
-#### input
+#### org
 
 Type: `string`
 
-Lorem ipsum.
+The organization or user to scour for issues. If not set, it will grab the
+user and repository of the current git directory, and use that user and that
+repository as options.
 
-#### options
+#### options.since
 
-##### foo
+Type: `string`
 
-Type: `boolean`  
-Default: `false`
+The ISO date from which to get issues that have been made.
 
-Lorem ipsum.
+#### options.until
+
+Type: `string`
+
+The ISO date to which to get issues that have been made.
+
+#### options.repo
+
+Type: `string`
+
+A repo to search for issues from.
 
 
 ## CLI
@@ -50,16 +65,19 @@ $ npm install --global get-github-issue-creators
 $ get-github-issue-creators --help
 
   Usage
-    get-github-issue-creators [input]
+    $ get-github-issue-creators [input]
 
   Options
-    --foo  Lorem ipsum. [Default: false]
+    -r, --repo  Only for a specific repo. [Default: false]
+    -s, --since Only since a specific time. [Default: false]
+    -u, --until Only to a specific time. [Default: false]
 
   Examples
     $ get-github-issue-creators
-    unicorns & rainbows
-    $ get-github-issue-creators ponies
-    ponies & rainbows
+    RichardLitt
+    $ get-github-issue-creators RichardLitt --repo=get-github-issue-creators --since=2016-01-15T00:01:01Z --until=2016-01-20T00:01:05Z
+    RichardLitt
+
 ```
 
 
