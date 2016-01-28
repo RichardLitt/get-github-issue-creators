@@ -1,9 +1,7 @@
 'use strict'
 
 const Octokat = require('octokat')
-const octo = new Octokat({
-  token: process.env.GITHUB_OGN_TOKEN
-})
+var octo
 const Promise = require('bluebird')
 const moment = require('moment')
 const _ = require('lodash')
@@ -11,7 +9,11 @@ const depaginate = require('depaginate')
 const getGithubUser = require('get-github-user')
 const sortAplhabetic = require('sort-alphabetic')
 
-module.exports = function (org, flags) {
+module.exports = function (org, flags, token) {
+  octo = new Octokat({
+    token: token || process.env.GITHUB_OGN_TOKEN
+  })
+
   function getAllRepos (org, flags) {
     return Promise.try(function () {
       if (org.type === 'Organization') {

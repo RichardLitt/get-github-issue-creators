@@ -1,9 +1,18 @@
 #!/usr/bin/env node
 'use strict'
 
-var meow = require('meow')
-var getGithubIssueCreators = require('./')
-var Promise = require('bluebird')
+const meow = require('meow')
+const getGithubIssueCreators = require('./')
+const Promise = require('bluebird')
+const gitconfig = require('gitconfiglocal')
+const pify = require('pify')
+const ghauth = Promise.promisify(require('ghauth'))
+const authOptions = {
+  configName: 'ghIssueCreators',
+  note: 'Get GitHub Issue Creators',
+  userAgent: 'ghIssueCreators',
+  scope: ['repo']
+}
 
 var cli = meow([`
   Usage
@@ -25,8 +34,20 @@ var cli = meow([`
   }
 }])
 
-Promise.try(function () {
-  return getGithubIssueCreators(cli.input[0], cli.flags)
-}).then(function (response) {
+Promise.try(() => {
+  return pify(gitconfig)(process.cwd())
+}).then(config => {
+  if (config && config.remote && config.remote.origin && config.remote.origin.url) {
+    return config.remote.origin.url.split(':')[1].split('.git')[0].split('/')
+  }
+}).then((res) => {
+  if (res && cli.input.length === 0) {
+    cli.input[0] = res[0]
+    cli.flags['repo'] = res[1]
+  }
+  return ghauth(authOptions)
+}).then((authData) => {
+  return getGithubIssueCreators(cli.input[0], cli.flags, authData.token)
+}).map(function (response) {
   console.log(response)
 })
