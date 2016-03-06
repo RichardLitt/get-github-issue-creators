@@ -1,6 +1,6 @@
 {
   "name": "get-github-issue-creators",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "description": "Get a list of GitHub issue creators from an organization or repo",
   "license": "MIT",
   "repository": "RichardLitt/get-github-issue-creators",
@@ -59,7 +59,7 @@
     ]
   },
   "coordinates": [
-    42.38910509999999,
-    -71.1200956
+    42.3738201,
+    -71.1006531
   ]
 }
