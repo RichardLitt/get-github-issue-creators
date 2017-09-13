@@ -1,5 +1,7 @@
 # get-github-issue-creators [![Build Status](https://travis-ci.org/RichardLitt/get-github-issue-creators.svg?branch=master)](https://travis-ci.org/RichardLitt/get-github-issue-creators)
 
+[![Greenkeeper badge](https://badges.greenkeeper.io/RichardLitt/get-github-issue-creators.svg)](https://greenkeeper.io/)
+
 > Get a list of GitHub issue creators from an organization or repo
 
 
