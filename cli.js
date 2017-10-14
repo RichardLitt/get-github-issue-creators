@@ -28,13 +28,13 @@ const cli = meow([`
     RichardLitt
     $ get-github-issue-creators RichardLitt --repo=get-github-issue-creators --since=2016-01-15T00:01:01Z --until=2016-01-20T00:01:05Z
     RichardLitt
-`, {
+`], {
   alias: {
     r: 'repo',
     s: 'since',
     u: 'until'
   }
-}])
+})
 
 Promise.try(() => {
   return pify(gitconfig)(process.cwd())
