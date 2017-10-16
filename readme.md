@@ -2,7 +2,7 @@
 
 > Get a list of GitHub issue creators from an organization or repo
 
-tsest
+
 ## Install
 
 ```
